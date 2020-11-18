@@ -17,10 +17,7 @@ function displayWeather(solArray){
   const results = $("#results");
   solArray.forEach(sol => {
     console.log(sol);
-    results.append(`<div> Sol ${sol[0]}
-    <strong>Temp:</strong> ${sol[1].AT.av}
-    <strong>Wind Speed:</strong> ${sol[1].HWS.av}
-    <strong>Atmospheric Pressure:</strong> ${sol[1].PRE.av}`);
+    results.append(`<div class="solWeather"> <h3>Sol ${sol[0]}</h3><strong>Temp:</strong> ${sol[1].AT.av}a<br><strong>Wind Speed:</strong> ${sol[1].HWS.av}<br><strong>Atmospheric Pressure:</strong> ${sol[1].PRE.av}`);
   })
 }
 
@@ -30,6 +27,15 @@ async function makeApiCall() {
   displayWeather(solData);
 }
 
-$("#getWeather").on('click', makeApiCall);
+$("#getWeather").on('click', function(){
+  makeApiCall();
+  $("#getWeather").hide();
+  $("#removeWeather").show();
+});
 
+$("#removeWeather").on('click', function(){
+  $("#results").html("");
+  $("#getWeather").show();
+  $("#removeWeather").hide();
+})
 
