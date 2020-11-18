@@ -10,18 +10,26 @@ console.log(mars); */
 
 function getElements(response) {
   const responseArray = Object.entries(response);
-  console.log(responseArray);
-  const solData = responseArray.filter( sol => sol[1].AT);
-  console.log(solData);
-  // const{"698":sol698, "699":sol699, "700":sol700} = response;
-  // console.log(sol698, sol699, sol700);
+  return responseArray.filter( sol => sol[1].AT && sol[1].HWS && sol[1].PRE);
+}
 
+function displayWeather(solArray){
+  const results = $("#results");
+  solArray.forEach(sol => {
+    console.log(sol);
+    results.append(`<div> Sol ${sol[0]}
+    <strong>Temp:</strong> ${sol[1].AT.av}
+    <strong>Wind Speed:</strong> ${sol[1].HWS.av}
+    <strong>Atmospheric Pressure:</strong> ${sol[1].PRE.av}`);
+  })
 }
 
 async function makeApiCall() {
   const response = await MarsWeatherService.getWeatherData();
-  getElements(response);
+  const solData = getElements(response);
+  displayWeather(solData);
 }
 
-makeApiCall();
+$("#getWeather").on('click', makeApiCall);
+
 
