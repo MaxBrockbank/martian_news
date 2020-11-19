@@ -49,5 +49,11 @@ body{
 #map{
   width: 550px;
   height: 400px;
+  display: block;
+  margin-top: 20px;
+}
+
+#addMarker{
+  display: none;
   margin-top: 50px;
 }

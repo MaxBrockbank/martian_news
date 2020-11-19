@@ -52,23 +52,26 @@ async function makeApiCall() {
   displayWeather(solData);
   const location = await LocationService.getIPLocation();
   mapboxgl.accessToken = `${process.env.MAP_KEY}`;
-  console.log(process.env);
   let map = new mapboxgl.Map({
     container: 'map',
     style:'mapbox://styles/maxbrockbank/ckhp728uu0gaa19ruty8atyd0',
     center: [location.longitude, location.latitude],
     zoom: 9
   });
-  let marker = new mapboxgl.Marker()
-  .setLngLat([location.longitude, location.latitude])
-  .addTo(map);
-
+  
+  $("#addMarker").on('click', function(){ 
+    let marker = new mapboxgl.Marker()
+      .setLngLat([location.longitude, location.latitude])
+      .addTo(map);
+    $("#addMarker").hide()
+  })
 }
 
 $("#getWeather").on('click', function(){
   makeApiCall();
   $("#getWeather").hide();
   $("#removeWeather").show();
+  $("#addMarker").show()
 });
 
 $("#removeWeather").on('click', function(){
