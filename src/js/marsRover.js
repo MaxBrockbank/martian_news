@@ -5,7 +5,6 @@ export default class marsRoverCamera{
       if(!response.ok) {
         throw Error(response.statusText);
       }
-      console.log(response);
       return response.json();
     } catch(error) {
       return error.message;

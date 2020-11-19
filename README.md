@@ -25,6 +25,7 @@ Using NASAs Insight API to retrieve weather conditions on mars and display them 
 <summary> Checkout Specs </summary>
 | Test  | Input | Output  |
 | :---: | :---: |  :---:  |
+
 </details>
 
 ## Legal

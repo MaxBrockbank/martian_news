@@ -5,9 +5,7 @@ import './../src/css/styles.css';
 import MarsWeatherService from './../src/js/marsWeather.js'
 import marsRoverCamera from './../src/js/marsRover.js'
 import APOD from'./../src/js/dailyPhoto.js';
-/*
-let mars = MarsWeatherService.getWeatherData();
-console.log(mars); */
+import LocationService from './../src/js/locationService.js';
 
 function getElements(response) {
   const responseArray = Object.entries(response);
@@ -21,9 +19,7 @@ async function displayWeather(solArray){
     grabRoverImages(solArray[i]);
     $(`#${solArray[i][0]}`).on('click', async function(){
       const date = solArray[i][1].First_UTC.slice(0, 10);
-      console.log(date);
       const newAPOD = await APOD.getAPOD(date);
-      console.log(newAPOD.hdurl);
       $("#APOD").html(`<h2> Image of the day for Sol ${solArray[i][0]}<h2><img src="${newAPOD.hdurl}" alt="Astronomy picture of the day" class="APODImg">`)
     })
   }
@@ -35,10 +31,8 @@ async function displayWeather(solArray){
 
 async function grabRoverImages(sol){
   const response = await marsRoverCamera.getRoverPhoto(sol);
-  console.log(response);
   if(response.photos.length > 0) {
     let i = Math.floor(Math.random() * response.photos.length);
-    console.log(response.photos[i].img_src, sol);
     $(`#${sol[0]}`).append(`<strong>Rover Pic of the Day:</strong><br><img src="${response.photos[i].img_src}" alt="Mars Rover Photo" id="${sol[0]}img" class="solImg">`)
   }
   /*const formattedResponse = Object.entries(rawResponse);
@@ -54,6 +48,8 @@ async function makeApiCall() {
   const response = await MarsWeatherService.getWeatherData();
   const solData = getElements(response);
   displayWeather(solData);
+  const location = await LocationService.getIPLocation();
+  console.log(location.latitude, location.longitude);
 }
 
 $("#getWeather").on('click', function(){
