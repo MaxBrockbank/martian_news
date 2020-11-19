@@ -45,3 +45,9 @@ body{
 #APOD{
   margin-top: 50px;
 }
+
+#map{
+  width: 550px;
+  height: 400px;
+  margin-top: 50px;
+}

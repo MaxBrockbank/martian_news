@@ -5,7 +5,7 @@ import './../src/css/styles.css';
 import MarsWeatherService from './../src/js/marsWeather.js'
 import marsRoverCamera from './../src/js/marsRover.js'
 import APOD from'./../src/js/dailyPhoto.js';
-import LocationService from './../src/js/locationService.js';
+import LocationService from './../src/js/locationService.js'
 
 function getElements(response) {
   const responseArray = Object.entries(response);
@@ -44,12 +44,25 @@ async function grabRoverImages(sol){
 
 }
 
+
+
 async function makeApiCall() {
   const response = await MarsWeatherService.getWeatherData();
   const solData = getElements(response);
   displayWeather(solData);
   const location = await LocationService.getIPLocation();
-  console.log(location.latitude, location.longitude);
+  mapboxgl.accessToken = `${process.env.MAP_KEY}`;
+  console.log(process.env);
+  let map = new mapboxgl.Map({
+    container: 'map',
+    style:'mapbox://styles/maxbrockbank/ckhp728uu0gaa19ruty8atyd0',
+    center: [location.longitude, location.latitude],
+    zoom: 9
+  });
+  let marker = new mapboxgl.Marker()
+  .setLngLat([location.longitude, location.latitude])
+  .addTo(map);
+
 }
 
 $("#getWeather").on('click', function(){
